@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "parentalcontrolsd Process CPU 80%cd linuxaged.github.com"
+title: "parentalcontrolsd Process CPU 80%"
 description: ""
 category: 
 tags: []
