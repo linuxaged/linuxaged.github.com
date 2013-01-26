@@ -6,14 +6,17 @@ category:
 tags: []
 ---
 {% include JB/setup %}
-##参考： http://loadcode.blogspot.co.uk/2006/02/cracking-software-on-os-x.html
-#
-###把二进制程序扔到 sublime text 2 中 切换到 hex 模式，我们猜测校验 license 的那个函数叫做 check* 之类的，于是以 check 关键字进行搜索
-###果然有个函数 checkLicense()
-#
-###利用 si 命令逐步运行，直至找到 objc_msgSend ()，这个函数意味着接下来要向某个 obj-c 对象传递参数了，
-###而且传递的参数保存在了寄存器里面
-#
+## 参考： http://loadcode.blogspot.co.uk/2006/02/cracking-software-on-os-x.html
+##
+
+### 把二进制程序扔到 sublime text 2 中 切换到 hex 模式，我们猜测校验 license 的那个函数叫做 check* 之类的，于是以 check 关键字进行搜索
+### 果然有个函数 checkLicense()
+##
+
+### 利用 si 命令逐步运行，直至找到 objc_msgSend ()，这个函数意味着接下来要向某个 obj-c 对象传递参数了，
+### 而且传递的参数保存在了寄存器里面
+##
+
 	(gdb) info all-registers
 	rax            0x101b242b0	4323426992
 	rbx            0x7fff7a8df700	140735249512192
