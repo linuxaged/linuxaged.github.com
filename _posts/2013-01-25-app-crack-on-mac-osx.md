@@ -8,7 +8,10 @@ tags: []
 {% include JB/setup %}
 ## 参考： http://loadcode.blogspot.co.uk/2006/02/cracking-software-on-os-x.html http://thexploit.com/secdev/mac-os-x-64-bit-assembly-system-calls/ http://shanewfx.github.com/blog/2012/03/26/vs2005-64bit-programming/
 
-
+##TODO:
+***
+***
+***
 ### 把二进制程序扔到 sublime text 2 中 切换到 hex 模式，我们猜测校验 license 的那个函数叫做 check* 之类的，于是以 check 关键字进行搜索
 ### 果然有个函数 checkLicense()
 # 
@@ -34,69 +37,93 @@ tags: []
 	2.前4个以外的整数参数将传递到堆栈
 	3.指针被视为整数参数
 	4.对于浮点参数，前4个参数将传入XMM0到XMM3的寄存器，后续的浮点参数通过堆栈传递。
-即使参数可以是通过寄存器传递，但在堆栈上仍需为其预留空间，每个函数至少要在堆栈上预留32个字节（为前4个参数预留空间）, 该空间允许将传递函数函数的寄存器轻松地复制到堆栈中。
+
+即使参数可以是通过寄存器传递，但在堆栈上仍需为其预留空间，每个函数至少要在堆栈上预留32个字节（为前4个参数预留空间）, 
+该空间允许将传递函数函数的寄存器轻松地复制到堆栈中。
 当然，如果要传递4个以上的参数，则必须为其预额外的堆栈空间。
 调用者负责椎栈空间的分配与回收，被调用函数不需要自己负责平衡堆栈（仅用于传递参数的这部分堆栈空间）
-注意，被调用函数中有局部变量和保存其他寄存器时，其空间是由被调用函数来分配，并在结束时由自己去回收这部分堆栈空间
+注意，callee中有局部变量和保存其他寄存器时，其空间是由被调用函数来分配，并在结束时由自己去回收这部分堆栈空间
 ####汇编一个简单程序:
 
-	int funtion1 (int a,int b,int c)
-	{
-	    return a * b * c;
-	}
-	float funtion2 (float a,float b,float c)
-	{
-	    return a * b * c;
-	}
-	int main(int argc, const char * argv[])
-	{
-	    int value0 = 0, value1 = 100, value2 = 200, value3 = 300;
-	    float _value0 = 0.0, _value1 = 100.0, _value2 = 200.0, _value3 = 300.0;
-	    value0 =  funtion1(value1, value2, value3);
-	    _value0 = funtion2(_value1, _value2, _value3);
-	    return 0;
-	}
-	
+
+int func(int a, int b)
+{
+    return a*b;
+}
+int main(int argc, const char * argv[])
+{
+    double returnValue = 0;
+    returnValue = func(32, 64);
+    printf("Hello World\n");
+    return returnValue;
+}
 
 对应的反汇编结果：
 
-	Dump of assembler code for function main:
-	0x0000000100000e70 <main+0>:	push   %rbp
-	0x0000000100000e71 <main+1>:	mov    %rsp,%rbp
-	0x0000000100000e74 <main+4>:	sub    $0x30,%rsp
-	0x0000000100000e78 <main+8>:	mov    $0x12c,%rax
-	0x0000000100000e82 <main+18>:	cvtsi2ssq %rax,%xmm0
-	0x0000000100000e87 <main+23>:	mov    $0xc8,%rax
-	0x0000000100000e91 <main+33>:	cvtsi2ssq %rax,%xmm1
-	0x0000000100000e96 <main+38>:	mov    $0x64,%rax
-	0x0000000100000ea0 <main+48>:	cvtsi2ssq %rax,%xmm2
-	0x0000000100000ea5 <main+53>:	xorps  %xmm3,%xmm3
-	0x0000000100000ea8 <main+56>:	movl   $0x0,-0x4(%rbp)
-	0x0000000100000eaf <main+63>:	mov    %edi,-0x8(%rbp)
-	0x0000000100000eb2 <main+66>:	mov    %rsi,-0x10(%rbp)
-	0x0000000100000eb6 <main+70>:	movl   $0x0,-0x14(%rbp)
-	0x0000000100000ebd <main+77>:	movl   $0x64,-0x18(%rbp)
-	0x0000000100000ec4 <main+84>:	movl   $0xc8,-0x1c(%rbp)
-	0x0000000100000ecb <main+91>:	movl   $0x12c,-0x20(%rbp)
-	0x0000000100000ed2 <main+98>:	movss  %xmm3,-0x24(%rbp)
-	0x0000000100000ed7 <main+103>:	movss  %xmm2,-0x28(%rbp)
-	0x0000000100000edc <main+108>:	movss  %xmm1,-0x2c(%rbp)
-	0x0000000100000ee1 <main+113>:	movss  %xmm0,-0x30(%rbp)
-	0x0000000100000ee6 <main+118>:	mov    -0x18(%rbp),%edi
-	0x0000000100000ee9 <main+121>:	mov    -0x1c(%rbp),%esi
-	0x0000000100000eec <main+124>:	mov    -0x20(%rbp),%edx
-	0x0000000100000eef <main+127>:	callq  0x100000e20 <_Z8funtion1iii>
-	0x0000000100000ef4 <main+132>:	mov    %eax,-0x14(%rbp)
-	0x0000000100000ef7 <main+135>:	movss  -0x28(%rbp),%xmm0
-	0x0000000100000efc <main+140>:	movss  -0x2c(%rbp),%xmm1
-	0x0000000100000f01 <main+145>:	movss  -0x30(%rbp),%xmm2
-	0x0000000100000f06 <main+150>:	callq  0x100000e40 <_Z8funtion2fff>
-	0x0000000100000f0b <main+155>:	mov    $0x0,%eax
-	0x0000000100000f10 <main+160>:	movss  %xmm0,-0x24(%rbp)
-	0x0000000100000f15 <main+165>:	add    $0x30,%rsp
-	0x0000000100000f19 <main+169>:	pop    %rbp
-	0x0000000100000f1a <main+170>:	retq   
-	End of assembler dump.
+Dump of assembler code for function main:
+0x0000000100000ec0 <main+0>:	push   %rbp
+0x0000000100000ec1 <main+1>:	mov    %rsp,%rbp
+0x0000000100000ec4 <main+4>:	sub    $0x20,%rsp	; 开辟栈空间 32 
+0x0000000100000ec8 <main+8>:	mov    $0x20,%eax	; func() 第一个参数 32
+0x0000000100000ecd <main+13>:	mov    $0x40,%ecx	; func() 第二个参数 64
+0x0000000100000ed2 <main+18>:	xorps  %xmm0,%xmm0	; 前4个参数将传入XMM0到XMM3的寄存器
+0x0000000100000ed5 <main+21>:	movl   $0x0,-0x4(%rbp) ; 这三句
+x0000000100000edc <main+28>:	mov    %edi,-0x8(%rbp)
+0x0000000100000edf <main+31>:	mov    %rsi,-0x10(%rbp)
+0x0000000100000ee3 <main+35>:	movsd  %xmm0,-0x18(%rbp)
+0x0000000100000ee8 <main+40>:	mov    %eax,%edi
+0x0000000100000eea <main+42>:	mov    %ecx,%esi
+0x0000000100000eec <main+44>:	callq  0x100000ea0 <_Z4funcii>
+0x0000000100000ef1 <main+49>:	lea    0x43(%rip),%rdi        # 0x100000f3b
+0x0000000100000ef8 <main+56>:	cvtsi2sd %eax,%xmm0
+0x0000000100000efc <main+60>:	movsd  %xmm0,-0x18(%rbp)
+0x0000000100000f01 <main+65>:	mov    $0x0,%al
+0x0000000100000f03 <main+67>:	callq  0x100000f18 <dyld_stub_printf>
+0x0000000100000f08 <main+72>:	cvttsd2si -0x18(%rbp),%ecx
+0x0000000100000f0d <main+77>:	mov    %eax,-0x1c(%rbp)
+0x0000000100000f10 <main+80>:	mov    %ecx,%eax	
+0x0000000100000f12 <main+82>:	add    $0x20,%rsp	; 回收栈空间
+0x0000000100000f16 <main+86>:	pop    %rbp
+0x0000000100000f17 <main+87>:	retq   
+End of assembler dump.
+
+
+Dump of assembler code for function main:
+0x0000000100000ef0 <main+0>:	push   %rbp
+0x0000000100000ef1 <main+1>:	mov    %rsp,%rbp
+0x0000000100000ef4 <main+4>:	sub    $0x20,%rsp	; 开辟栈空间 32 
+0x0000000100000ef8 <main+8>:	mov    $0x20,%eax   ; func() 第一个参数 32
+0x0000000100000efd <main+13>:	mov    $0x40,%ecx   ; func() 第二个参数 64
+0x0000000100000f02 <main+18>:	movl   $0x0,-0x4(%rbp)	; 雷打不动的三行
+0x0000000100000f09 <main+25>:	mov    %edi,-0x8(%rbp)	; 雷打不动的三行
+0x0000000100000f0c <main+28>:	mov    %rsi,-0x10(%rbp)	; 雷打不动的三行
+0x0000000100000f10 <main+32>:	movl   $0x0,-0x14(%rbp)	; 两个参数入栈
+0x0000000100000f17 <main+39>:	movl   $0x0,-0x18(%rbp)
+0x0000000100000f1e <main+46>:	mov    %eax,%edi	; edi,esi 用作真正的参数寄存器
+0x0000000100000f20 <main+48>:	mov    %ecx,%esi
+0x0000000100000f22 <main+50>:	callq  0x100000ed0 <_Z4funcii>
+0x0000000100000f27 <main+55>:	mov    $0x8,%edi	; 第二次 调用func() 的参数
+0x0000000100000f2c <main+60>:	mov    $0x10,%esi
+0x0000000100000f31 <main+65>:	mov    %eax,-0x14(%rbp)	; 第一次 调用 func() 结果入栈
+0x0000000100000f34 <main+68>:	callq  0x100000ed0 <_Z4funcii>
+0x0000000100000f39 <main+73>:	mov    %eax,-0x18(%rbp)
+0x0000000100000f3c <main+76>:	mov    -0x18(%rbp),%eax
+0x0000000100000f3f <main+79>:	add    $0x20,%rsp		; 收回栈空间
+0x0000000100000f43 <main+83>:	pop    %rbp
+0x0000000100000f44 <main+84>:	retq   
+End of assembler dump.
+
+Dump of assembler code for function _Z4funcii:
+0x0000000100000ed0 <_Z4funcii+0>:	push   %rbp
+0x0000000100000ed1 <_Z4funcii+1>:	mov    %rsp,%rbp
+0x0000000100000ed4 <_Z4funcii+4>:	mov    %edi,-0x4(%rbp)
+0x0000000100000ed7 <_Z4funcii+7>:	mov    %esi,-0x8(%rbp)
+0x0000000100000eda <_Z4funcii+10>:	mov    -0x4(%rbp),%esi
+0x0000000100000edd <_Z4funcii+13>:	imul   -0x8(%rbp),%esi
+0x0000000100000ee1 <_Z4funcii+17>:	mov    %esi,%eax
+0x0000000100000ee3 <_Z4funcii+19>:	pop    %rbp
+0x0000000100000ee4 <_Z4funcii+20>:	retq   
+End of assembler dump.
 
 	Dump of assembler code for function -[SSDocumentController checkLicense:]:
 	0x00000001000313c5 <-[checkLicense:]+0>:	push   %rbp
