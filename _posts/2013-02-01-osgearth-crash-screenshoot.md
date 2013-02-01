@@ -6,18 +6,18 @@ category:
 tags: []
 ---
 {% include JB/setup %}
-[img-ref]: {{ BASE_PATH }}/images/1.png
-[img-ref]: {{ BASE_PATH }}/images/2.png
-[img-ref]: {{ BASE_PATH }}/images/3.png
-[img-ref]: {{ BASE_PATH }}/images/4.png
-[img-ref]: {{ BASE_PATH }}/images/5.png
-[img-ref]: {{ BASE_PATH }}/images/6.png
-[img-ref]: {{ BASE_PATH }}/images/7.png
-[img-ref]: {{ BASE_PATH }}/images/8.png
-[img-ref]: {{ BASE_PATH }}/images/9.png
-[img-ref]: {{ BASE_PATH }}/images/10.png
-[img-ref]: {{ BASE_PATH }}/images/11.png
-[img-ref]: {{ BASE_PATH }}/images/12.png
-[img-ref]: {{ BASE_PATH }}/images/13.png
-[img-ref]: {{ BASE_PATH }}/images/14.png
-[img-ref]: {{ BASE_PATH }}/images/15.png
+{{ site.img_url }}/1.png
+{{ site.img_url }}/2.png
+{{ site.img_url }}/3.png
+{{ site.img_url }}/4.png
+{{ site.img_url }}/5.png
+{{ site.img_url }}/6.png
+{{ site.img_url }}/7.png
+{{ site.img_url }}/8.png
+{{ site.img_url }}/9.png
+{{ site.img_url }}/10.png
+{{ site.img_url }}/11.png
+{{ site.img_url }}/12.png
+{{ site.img_url }}/13.png
+{{ site.img_url }}/14.png
+{{ site.img_url }}/15.png
