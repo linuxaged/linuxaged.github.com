@@ -20,11 +20,13 @@ tags: []
 	Have lots of ideas -> Keep track of them -> Act -> Pull it off
 ***
 ##It says,all life is problem solving. But which kind of problem do you like to solve?
-> **Experts work from intuition** experts knows which details to focus on and which details can be safely ignored
-> **Proficient practitioners can self-correct**
-> **Competents can troubleshoot**
+***
+Experts work from intuition experts knows which details to focus on and which details can be safely ignored
+Proficient practitioners can self-correct
+Competents can troubleshoot
 
-> **Don't repeat yourself**
-> **No broken Windows**
-> **sheep dip training dont work**
-> **SMART goals: Specific, Measurable, Achievable, Relevant, and Time-boxed**
+***
+Don't repeat yourself
+No broken Windows
+sheep dip training dont work
+SMART goals: Specific, Measurable, Achievable, Relevant, and Time-boxed
