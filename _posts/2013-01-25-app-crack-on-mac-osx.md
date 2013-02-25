@@ -6,52 +6,14 @@ category:
 tags: []
 ---
 {% include JB/setup %}
-## 参考： 
-(http://loadcode.blogspot.co.uk/2006/02/cracking-software-on-os-x.html)
-(http://thexploit.com/secdev/mac-os-x-64-bit-assembly-system-calls/)
-(http://shanewfx.github.com/blog/2012/03/26/vs2005-64bit-programming/)
-(http://en.wikipedia.org/wiki/X86_calling_conventions)
-(http://eli.thegreenplace.net/2011/09/06/stack-frame-layout-on-x86-64/)
-(http://www.uclibc.org/docs/psABI-x86_64.pdf)
+#参考
+	(http://lifehacker.com/5736101/how-to-crack-just-about-any-mac-app-and-how-to-prevent-it)
+	(http://loadcode.blogspot.co.uk/2006/02/cracking-software-on-os-x.html)
 
 ***
-##TODO:##
-jne, je 在内存里的表示
-***
-
-### 把二进制程序扔到 sublime text 2 中 切换到 hex 模式，我们猜测校验 license 的那个函数叫做 check* 之类的，于是以 check 关键字进行搜索
-### 果然有个函数 checkLicense()
-***
-### 利用 si 命令逐步运行，直至找到 objc_msgSend ()，这个函数意味着接下来要向某个 obj-c 对象传递参数了，
-### 而且传递的参数保存在了寄存器里面，反汇编
- x64 结构一共有16个64bit通用寄存器.
- 在调用函数时, 寄存器 %rbp, %rbx, 以及 %r12, %r13, %r14, %r15 属于 caller, 剩下的属于 callee.
-
-### x64 calling convention
-在64的世界里有两个 calling convention 标准，一个 Windows, 一个 Unix. 这里只关注 Unix 的.
-####Intel 处理器从 32 到 64 位 寄存器的变化：
-	
-	拓展的寄存器	
-	| 32-bit | EAX | EBX | ECX | EDX | ESI | EDI | EBP | ESP |
-	|--------|-----|-----|-----|-----|-----|-----|-----|-----|
-	| 64-bit | RAX | RBX | RCX | RDX | RSI | RDI | RBP | RSP |
-	
-    增加的寄存器
-	R8 ~ R15, XMM8 ~ XMM15
-
-####Intel 处理器从 32 到 64 位函数调用的变化：
-	1.前4个整数参数（从左至右）通过4个寄存器传递：RCX RDX R8 R9
-	2.前4个以外的整数参数将传递到堆栈
-	3.指针被视为整数参数
-	4.对于浮点参数，前4个参数将传入XMM0到XMM3的寄存器，后续的浮点参数通过堆栈传递。
-
-即使参数可以是通过寄存器传递，但在堆栈上仍需为其预留空间，每个函数至少要在堆栈上预留32个字节（为前4个参数预留空间）, 
-该空间允许将传递函数函数的寄存器轻松地复制到堆栈中。
-当然，如果要传递4个以上的参数，则必须为其预额外的堆栈空间。
-调用者负责椎栈空间的分配与回收，被调用函数不需要自己负责平衡堆栈（仅用于传递参数的这部分堆栈空间）
-注意，callee中有局部变量和保存其他寄存器时，其空间是由被调用函数来分配，并在结束时由自己去回收这部分堆栈空间
-####汇编一个简单程序:
-
+#基础
+###X64汇编
+汇编一个简单程序:
 
 	int func(int a, int b)
 	{
@@ -108,27 +70,56 @@ jne, je 在内存里的表示
 	0x0000000100000ee4 <_Z4funcii+20>:	retq   
 	End of assembler dump.
 
-***
+#步骤
+这里以一款xxx应用为例
 
-***
+1.利用 classdump 找出我们要crack的函数
+
+	class-dump executable | mate
+
+搜索关键字 export, 初步确定为 MyDocument 类中的 export 方法
+
+2.利用 otool 找出段和偏移
+
+	otx GlyphDesigner -arch i386 | mate
+
+搜索关键字 export,找到方法 [MyDocument export:]
 
 	-[MyDocument export:]:
-	...
-	   +33  0000000100007699  84c0                      testb       %al,%al
+	    +0  0000000100007678  55                        pushq       %rbp
+	    +1  0000000100007679  4889e5                    movq        %rsp,                         %rbp
+	    +4  000000010000767c  4157                      pushq       %r15
+	    +6  000000010000767e  4156                      pushq       %r14
+	    +8  0000000100007680  4155                      pushq       %r13
+	   +10  0000000100007682  4154                      pushq       %r12
+	   +12  0000000100007684  53                        pushq       %rbx
+	   +13  0000000100007685  4883ec48                  subq        $72,                          %rsp
+	   +17  0000000100007689  4989ff                    movq        %rdi,                         %r15
+	   +20  000000010000768c  488b3525660600            movq        419365(%rip),                 %rsi
+	   +27  0000000100007693  ff15bf6a0500              callq       *355007(%rip)                 -[%rdi appRegistered]
+	   +33  0000000100007699  84c0                      testb       %al,                          %al
 	   +35  000000010000769b  0f85a5000000              jne         0x100007746
-	   +41  00000001000076a1  488b35d86c0600            movq        0x00066cd8(%rip),%rsi         alertWithMessageText:defaultButton:alternateButton:otherButton:informativeTextWithFormat:
-	   +48  00000001000076a8  488b3de1860600            movq        0x000686e1(%rip),%rdi
-	   +55  00000001000076af  488d052aa30600            leaq        0x0006a32a(%rip),%rax         The export feature is only available in the registered version.
 
-	   +35  000000010000769b  0f85a5000000              jne         0x100007746
-	   +578  00000001000078ba  0f8427010000              je          0x1000079e7                   return;
+3.记录 jne 和 je 指令的二进制码
 
-好，我们考试找到这个 jne,
+	0f8427010000              je
+	0f85a5000000              jne
 
-	(gdb) b export:
-	Breakpoint 2 at 0x100007819
-	(gdb) x/x 0x100007819
-	0x100007819 <-[MyDocument export:]+17>:	0x48ff8949
-	(gdb) x/x 0x10000782b
-	0x10000782b <-[MyDocument export:]+35>:	0x00a5850f
+4.切换到要破解的应用的二进制文件所在目录
 
+		$cd /Applications/xxx.app/Contents/MacOS
+
+5..启动gdb调试器,载入二进制文件
+
+		$gdb xxx
+
+6.找到 export 函数,打断点 ; 运行
+
+		(gdb)b export
+		(gdb)run
+		(gdb) x/x 0x000000010000769b
+		0x10000769b <-[MyDocument export:]+35>:	0x00a5850f
+		(gdb) x/x 0x000000010000769c
+		0x10000769c <-[MyDocument export:]+36>:	0x0000a585
+
+7.最后我们发现 把 0x10000769c处的 85 改成 84 就行了
