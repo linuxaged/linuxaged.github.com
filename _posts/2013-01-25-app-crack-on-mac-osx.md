@@ -7,8 +7,9 @@ tags: []
 ---
 {% include JB/setup %}
 #参考
-	(http://lifehacker.com/5736101/how-to-crack-just-about-any-mac-app-and-how-to-prevent-it)
-	(http://loadcode.blogspot.co.uk/2006/02/cracking-software-on-os-x.html)
+http://lifehacker.com/5736101/how-to-crack-just-about-any-mac-app-and-how-to-prevent-it
+
+http://loadcode.blogspot.co.uk/2006/02/cracking-software-on-os-x.html
 
 ***
 #基础
@@ -71,7 +72,7 @@ tags: []
 	End of assembler dump.
 
 #步骤
-这里以一款xxx应用为例
+这里以一款xxx应用为例,xxx应用未注册时无法使用导出功能
 
 1.利用 classdump 找出我们要crack的函数
 
@@ -79,9 +80,9 @@ tags: []
 
 搜索关键字 export, 初步确定为 MyDocument 类中的 export 方法
 
-2.利用 otool 找出段和偏移
+2.利用 otx 找出段和偏移
 
-	otx GlyphDesigner -arch i386 | mate
+	otx xxx -arch i386 | mate
 
 搜索关键字 export,找到方法 [MyDocument export:]
 
