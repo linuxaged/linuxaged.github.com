@@ -110,7 +110,7 @@ http://loadcode.blogspot.co.uk/2006/02/cracking-software-on-os-x.html
 
 		$cd /Applications/xxx.app/Contents/MacOS
 
-5..启动gdb调试器,载入二进制文件
+5.启动gdb调试器,载入二进制文件
 
 		$gdb xxx
 
