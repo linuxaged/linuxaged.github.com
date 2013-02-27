@@ -9,6 +9,7 @@ tags: []
 #参考
 http://manual.macromates.com/en/regular_expressions#regular_expressions
 http://deerchao.net/tutorials/regex/regex.htm#greedyandlazy
+http://manual.macromates.com/en/regular_expressions
 #入门
 1.匹配电话号码
 	0\d\d-\d\d\d\d\d\d\d\d
@@ -29,8 +30,12 @@ http://deerchao.net/tutorials/regex/regex.htm#greedyandlazy
 GBK/GB2312编码：[x80-xff>]+ 或 [xa1-xff]+
 UTF-8编码：[x{4e00}-x{9fa5}]+/u
 
+5.相邻重复的单词包括汉字
+	(\w)\1
 #后向匹配
 1.匹配重复的单词
 	\b(\w+)\b\s+\1\b	
 2.匹配重复的汉字
 第一步,汉字在unicode中的范围 [\x{4e00}-\x{9fa5}]
+
+#键盘字符
