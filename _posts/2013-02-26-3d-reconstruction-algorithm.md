@@ -6,7 +6,13 @@ category:
 tags: []
 ---
 {% include JB/setup %}
+#Reference
+http://docs.opencv.org/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html
 
+#OpenCV
+
+
+#Paper
 	α=0
 	β=90
 	get new image from the camera (I1)

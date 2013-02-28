@@ -124,3 +124,4 @@ http://loadcode.blogspot.co.uk/2006/02/cracking-software-on-os-x.html
 		0x10000769c <-[MyDocument export:]+36>:	0x0000a585
 
 7.最后我们发现 把 0x10000769c处的 85 改成 84 就行了
+		(gdb)set {char}0x10000769c=0x84
