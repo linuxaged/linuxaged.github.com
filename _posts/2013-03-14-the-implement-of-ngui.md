@@ -21,6 +21,7 @@ UIPanel
 UIWidget
 #NGUI 事件传递
 UICamera 绑定的相机绘制的对象(绑定了collider)添加以下事件:
+
 	void OnHover() 
 	void OnPress() 
 	void OnClick()
