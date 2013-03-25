@@ -19,9 +19,13 @@ tags: []
 
 	拿来主义
 
+	steal from smart people
 ***
 
 ##生活
+
+	NOT satisfied with things designed by others
+
 	找把舒服的椅子再开始写代码
 
 	做出重要决定时,向有经验的人请教
