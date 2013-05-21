@@ -10,6 +10,7 @@ tags: []
 #References
 [link 1](http://msdn.microsoft.com/en-au/library/79b3xss3\(v=vs.80\).aspx)
 
+
 先给出微软官方的解释：
 
 Static classes and class members are used to create data and functions that can be accessed without creating an instance of the class. Static class members can be used to separate data and behavior that is independent of any object identity: the data and functions do not change regardless of what happens to the object. Static classes can be used when there is no data or behavior in the class that depends on object identity.
