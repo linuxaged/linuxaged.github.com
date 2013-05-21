@@ -10,6 +10,20 @@ tags: []
 #References
 [link 1](http://msdn.microsoft.com/en-au/library/79b3xss3\(v=vs.80\).aspx)
 
+先给出微软官方的解释：
+
 Static classes and class members are used to create data and functions that can be accessed without creating an instance of the class. Static class members can be used to separate data and behavior that is independent of any object identity: the data and functions do not change regardless of what happens to the object. Static classes can be used when there is no data or behavior in the class that depends on object identity.
 
-Static 关键字给我的感觉就是,形式上把数据和操作放到一个 class 里, 访问他们并不需要通过面向对象的方式(创建实例,通过实例来访问)
+Static 形式上把数据(变量)和操作（方法）放到一个 class 里, 访问他们并不需要通过面向对象的方式(创建实例,通过实例来访问)。编译器全局得分配内存给 static 对象，所以在使用 static 的时候要很小心，因为他是全局的，不会因为释放实例而回收他所占的内存。
+
+要理解 static 不得不提 auto 这个关键字，他们的孪生兄弟，只不过编译器默认你定义的变量和函数是 auto （除非加上 static）. auto 就是自动的意思，在程序语言里就是当你需要这个变量或者函数时才分配（按需自动分配），static 对应就是固定的意思，不管你需不需要我给你留着。
+
+#用法
+##工具类
+比如 Math 就是一个 包含了很多 `static function()` 的 `static class`
+
+在使用的时候不需要创建实例，简单的 Math.sin(x) 就行了
+
+##单纯的调用一些方法
+
+我只是想调用这个类中的一两个方法，并没有什么状态相关的操作，那我就可以把这个类设成 static 的。虽然在现代语言中创建实例已经不是很耗资源的操作了，但是省去了创建实例再调用的麻烦，使得代码更容易维护
