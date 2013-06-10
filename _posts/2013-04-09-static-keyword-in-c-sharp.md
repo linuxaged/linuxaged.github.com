@@ -28,3 +28,60 @@ Static 形式上把数据(变量)和操作（方法）放到一个 class 里, �
 ##单纯的调用一些方法
 
 我只是想调用这个类中的一两个方法，并没有什么状态相关的操作，那我就可以把这个类设成 static 的。虽然在现代语言中创建实例已经不是很耗资源的操作了，但是省去了创建实例再调用的麻烦，使得代码更容易维护
+
+##Best Practice
+static 这个关键字设计的初衷是用它来定义一些无法在 instance variable 里面定义的变量的
+
+比如,
+ `static instanceNumber// instance 个数`单独的 instance 是不知道 class 究竟被实例化了几次的.
+
+当这个成员存在所有的类实例里面,可以考虑 static variable
+
+否则使用 instance variable
+
+通常来说,不建议使用 public static, 因为多线程情况下访问全局变量你需要加锁
+
+###Singleton
+最常见的 static 用法就是单例模式:
+单例类只允许有一个实例,
+
+    // Singleton pattern -- Structural example  
+    using System;
+    
+    // "Singleton"
+    class Singleton
+    {
+      // Fields
+      private static Singleton instance;
+    
+      // Constructor
+      protected Singleton() {}
+    
+      // Methods
+      public static Singleton Instance()
+      {
+        // Uses "Lazy initialization"
+        if( instance == null )
+          instance = new Singleton();
+    
+        return instance;
+      }
+    }
+    
+    /// <summary>
+    /// Client test
+    /// </summary>
+    public class Client
+    {
+      public static void Main()
+      {
+        // Constructor is protected -- cannot use new
+        Singleton s1 = Singleton.Instance();
+        Singleton s2 = Singleton.Instance();
+    
+        if( s1 == s2 )
+          Console.WriteLine( "The same instance" );
+      }
+    }
+    
+关于C#的单例模式墙裂推荐这篇文章:[Implementing the Singleton Pattern in C#](http://csharpindepth.com/Articles/General/Singleton.aspx)
