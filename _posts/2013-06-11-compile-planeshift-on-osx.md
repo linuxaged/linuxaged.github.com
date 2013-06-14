@@ -39,6 +39,13 @@ http://apple.stackexchange.com/questions/38222/how-do-i-install-gcc-via-homebrew
             x86_64-apple-darwin12.3.0-gcc-ar-4.8
             x86_64-apple-darwin12.3.0-gcc-nm-4.8
             x86_64-apple-darwin12.3.0-gcc-ranlib-4.8
+            
+###编译
+`./configure --prefix=$HOME/workspace/cal3d CC=/usr/local/bin/gcc-4.8 CXX=/usr/local/bin/g++-4.8`
+
+`./configure --enable-debug --without-java --without-perl --without-python --without-3ds --with-cal3d=$HOME/workspace/cal3d CC=/usr/local/bin/gcc-4.8 CXX=/usr/local/bin/g++-4.8 OBJCXX=/usr/bin/clang++ OBJC=/usr/bin/clang`
+
+`./configure --enable-debug --with-cal3d=$HOME/workspace/cal3d CC=/usr/local/bin/gcc-4.8 CXX=/usr/local/bin/g++-4.8`
 ##cal3d
 报错：
 
