@@ -10,3 +10,5 @@ tags: []
 [Hexagonal Grids for Games](http://www.redblobgames.com/grids/hexagons/)
 
 [Statically Recompiling NES Games into Native Executables with LLVM and Go](http://andrewkelley.me/post/jamulator.html)
+
+[Algorithms from the book](http://cstheory.stackexchange.com/questions/189/algorithms-from-the-book?)
