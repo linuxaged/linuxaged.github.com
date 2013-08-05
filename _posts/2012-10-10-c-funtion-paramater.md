@@ -7,9 +7,10 @@ tags: []
 ---
 {% include JB/setup %}
 
-c 函数参数传递机制
+#c 函数参数传递机制
 
 考虑下面的代码
+
 		void func1(int *poiIn)
 		{
     		poiIn = malloc(512);

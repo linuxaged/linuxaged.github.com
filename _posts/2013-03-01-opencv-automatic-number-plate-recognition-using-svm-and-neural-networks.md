@@ -6,17 +6,18 @@ category:
 tags: []
 ---
 {% include JB/setup %}
+
 #ANPR algorithm
-1.plate detection
-2.plate recognition
+	1.plate detection
+	2.plate recognition
 
 #Plate detection
-• Sobel filter
-• Threshold operation
-• Close morphologic operation
-• Mask of one filled area
-• Possible detected plates marked in red (features images)
-• Detected plates after the SVM classifier
+	• Sobel filter
+	• Threshold operation
+	• Close morphologic operation
+	• Mask of one filled area
+	• Possible detected plates marked in red (features images)
+	• Detected plates after the SVM classifier
 
 #Segmentation
 	   //convert image to gray
@@ -38,17 +39,18 @@ tags: []
 #编译chapter5
 在之前 2013-02-28-opencv-xcode-build 工程的基础上构建 ANPR 项目
 
-1.导入项目文件
-2.设置 c++ Standard Library 为 libstdc++(GNU c++ standard library)
-3.lsh_table.h 文件中 
-	#if USE_UNORDERED_MAP
-	#include <unordered_map>
-	#else
+	1.导入项目文件
+	2.设置 c++ Standard Library 为 libstdc++(GNU c++ standard library)
+	3.lsh_table.h 文件中 
+		#if USE_UNORDERED_MAP
+		#include <unordered_map>
+		#else
 
-  改为
-	#if USE_UNORDERED_MAP
-	#include <tr1/unordered_map>
-	#else
+ 		 改为
+		#if USE_UNORDERED_MAP
+		#include <tr1/unordered_map>
+		#else
 
-http://stackoverflow.com/questions/7359284/unordered-map-error-in-gcc
-http://stackoverflow.com/questions/8454329/why-cant-clang-with-libc-in-c0x-mode-link-this-boostprogram-options-examp
+[link](http://stackoverflow.com/questions/7359284/unordered-map-error-in-gcc)
+
+[link](http://stackoverflow.com/questions/8454329/why-cant-clang-with-libc-in-c0x-mode-link-this-boostprogram-options-examp)
