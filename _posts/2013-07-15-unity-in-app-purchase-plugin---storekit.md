@@ -7,6 +7,9 @@ tags: []
 ---
 {% include JB/setup %}
 
+在场景内新建一个 empty GameObject 绑定 StoreKitEventListener
+
+
 
 	// 支付成功
 	void purchaseSuccessful( StoreKitTransaction transaction )
