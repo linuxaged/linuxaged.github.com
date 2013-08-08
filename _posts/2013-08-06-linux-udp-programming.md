@@ -9,3 +9,5 @@ tags: []
 
 #Quake3 Network Model
 
+	Client    --commands-->   Server
+             <--gamestate--         
