@@ -41,7 +41,10 @@ http://apple.stackexchange.com/questions/23751/how-to-turn-mac-os-x-lion-into-a-
 	sudo cp /etc/php.ini.default /etc/php.ini
 
 	修改 /etc/php.ini
-	replace /var/mysql/mysql.sock with /tmp/mysql.sock
+	把下面三个参数的目录都设置为 /tmp/mysql.sock
+	mysql.default_socket
+	mysqli.default_socket
+	pdo_mysql.default_socket
 
 
 #Step 5:
