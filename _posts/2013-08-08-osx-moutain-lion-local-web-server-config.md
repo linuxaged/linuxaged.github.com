@@ -9,9 +9,9 @@ tags: []
 
 #Reference
 
-https://discussions.apple.com/docs/DOC-3083
+[discussion apple](https://discussions.apple.com/docs/DOC-3083)
 
-http://apple.stackexchange.com/questions/23751/how-to-turn-mac-os-x-lion-into-a-web-server
+[StackExchage](http://apple.stackexchange.com/questions/23751/how-to-turn-mac-os-x-lion-into-a-web-server)
 
 
 #Step 1:Hello World
