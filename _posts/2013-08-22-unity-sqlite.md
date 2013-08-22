@@ -13,8 +13,8 @@ tags: []
 下面两个子目录下都含有这个库, 区别在于 c# 标准不一样, 2.0 和 unity 分别对应于 PlayerSettings 下面 api compatibility level: **.NET 2.0** 和 **.NET 2.0 subset**
 	
 	Unity.app/Contents/Frameworks/Mono/lib/mono
-											    /2.0
-											    /unity
+								/2.0
+								/unity
 											    
 											    
 
