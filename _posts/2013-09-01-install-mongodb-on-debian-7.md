@@ -7,8 +7,11 @@ tags: []
 ---
 {% include JB/setup %}
 
-follow the tutorial [link](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-debian/)
+[Install mongodb On Debian](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-debian/)
 
-#Auth
+[Create a User Administrator](http://docs.mongodb.org/manual/tutorial/add-user-administrator/)
+
+#Authentication
 	/etc/init.d/mongodb stop
 	
+	mongod --auth --fork --logpath=/var/log/mongodb/mongodb.log
