@@ -7,11 +7,12 @@ tags: []
 ---
 {% include JB/setup %}
 
+
 分为
 
-*structural* aspects
+#structural aspects
 
-*concurrency* aspects
+#concurrency aspects
 
 如果多个线程操作同一块内存,他们必须按照事先定好的次序来
 
@@ -19,4 +20,3 @@ tags: []
 
 
 ##原子操作&原子类型
-<atomic>
