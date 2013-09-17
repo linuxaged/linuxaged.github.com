@@ -12,8 +12,14 @@ tags: []
 #c++11
 std::share_ptr
 #线程管理
-
-**std::thread**
+##Launching
+	void do_some_work();	std::thread my_thread(do_some_work);
+##Waiting
+	my_thread.join();
+##Running background
+	my_thread.detach()
+##Ownership
+	**std::thread**
 
 	join
 	detach
