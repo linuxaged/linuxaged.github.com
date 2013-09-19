@@ -27,4 +27,13 @@ Quake3 Network 的点睛之笔是在服务端利用 memory introspection 计算�
 服务器端稍复杂, 在广播 Master gamestate 的同时需要审查报文的丢失情况
 
 服务器用一个环结构保存每个客户端 32 个历史 gamestate (称作 快照)
+
+
+___
+PS
+
+ioquake 在 OSX 下的编译
 	
+	$ git clone https://github.com/ioquake/ioq3.git
+	$ cd ioq3
+	$ make COMPILE_ARCH=x86_64 BUILD_SERVER=0
