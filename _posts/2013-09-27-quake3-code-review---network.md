@@ -7,6 +7,9 @@ tags: []
 ---
 {% include JB/setup %}
 
+
+	CL_SendCmd
+	
 	CL_WritePacket
 	
 	CL_Netchan_Transmit
