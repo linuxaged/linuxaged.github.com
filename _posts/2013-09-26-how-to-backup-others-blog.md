@@ -23,3 +23,8 @@ tags: []
 	Wildcards (return=none) :
 	
 试试看吧!
+
+---
+csdn 的 blog 用上面这个工具 down 不了. 原来 wget 就可抓取整个网站:
+
+	wget -r -p -U Mozilla http://blog.csdn.net/v_JULY_v
