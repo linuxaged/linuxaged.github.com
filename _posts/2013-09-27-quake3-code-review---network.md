@@ -8,6 +8,7 @@ tags: []
 {% include JB/setup %}
 
 #Client
+###客户端和服务端的沟通流程?
 
 	CL_SendCmd
 	
@@ -20,6 +21,24 @@ tags: []
 	NET_SendPacket // 装包, 添加包头等
 	
 	Sys_SendPacket // 调用系统 socket, 发送
+	
+###客户端怎么解析所有玩家的信息?
+
+	CL_ParseServerMessage()
+	{
+		switch(cmd)
+		{
+			case svc_serverCommand:
+				CL_ParseCommandString( msg );
+				break;
+			case svc_gamestate:
+				CL_ParseGamestate( msg );
+				break;
+			case svc_snapshot:
+				CL_ParseSnapshot( msg );
+				break;
+		}
+	}
 	
 #Server
 ###怎么分发所有玩家的 game state?
@@ -67,9 +86,7 @@ common.c 中调用:
 		}
 	}
 	
-###客户端怎么解析所有玩家的信息?
-
-	CL_ParseServerMessage
+###怎么处理所有玩家在地图中的位置?
 	
 	
 	
