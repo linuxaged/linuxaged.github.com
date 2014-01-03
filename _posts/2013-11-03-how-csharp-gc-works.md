@@ -7,6 +7,11 @@ tags: []
 ---
 {% include JB/setup %}
 
+<<<<<<< HEAD
+#Reference
+
+[MSDN ](http://msdn.microsoft.com/en-us/library/ms973837.aspx)
+=======
 [MSDN: GC](http://msdn.microsoft.com/en-us/library/ms973837.aspx)
 
 [Mono: Generational GC](http://www.mono-project.com/Generational_GC)
@@ -21,3 +26,4 @@ tags: []
 	...
 	mc = null;
 	Destroy(mc);
+>>>>>>> 8bebbe60fd5e7e576c8d847a662cf4ea2a75b278
