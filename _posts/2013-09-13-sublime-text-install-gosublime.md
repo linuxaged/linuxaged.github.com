@@ -18,4 +18,4 @@ Preferences -> Package Settings -> GoSublime -> Settings -> User
 
 添加:
 
-	{"env": {"GOPATH": "$HOME/go/bin", "GOROOT": "$HOME/go"}}
+	{"env": {"GOPATH": "$HOME/go/", "GOROOT": "/usr/local/go"}}
