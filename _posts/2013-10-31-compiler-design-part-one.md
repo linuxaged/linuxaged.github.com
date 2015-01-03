@@ -6,6 +6,8 @@ category:
 tags: []
 ---
 {% include JB/setup %}
+
+#Parser
 传统手写 parser
 
 	void stat() {		if ( «lookahead token is return» )
@@ -24,5 +26,19 @@ tags: []
 特殊字符：例如 ';'
 
 用户自定义字符窜：
+
+
+#AST
+
+下面演示如何用 ANTLR 来构建 Abstract Syntax Trees
+
+#Interpreter
+
+memory space:
+
+	globle 
+	function space 
+	struct or object instance
+	
 
 
