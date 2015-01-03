@@ -7,6 +7,10 @@ tags: []
 ---
 {% include JB/setup %}
 
+[Android OS - Process and Zygote](http://coltf.blogspot.com/p/android-os-processes-and-zygote.html)
+
+[Android Application Launch](http://multi-core-dump.blogspot.com/2010/04/android-application-launch.html)
+
 有两种基本的 Activity 类型：
 	
 	根 Activity ; 子 Activity
