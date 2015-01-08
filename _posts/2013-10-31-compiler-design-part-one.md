@@ -40,5 +40,28 @@ memory space:
 	function space 
 	struct or object instance
 	
+#[Runtime](http://cs.nyu.edu/~gottlieb/courses/2007-08-fall/compilers/lectures/lecture-13.html)
+stack 分配。如何解决递归情况下的 stack 分配
+
+`activation tree`
+
+`Action Records` or `frame` 中包含：
+	
+	临时区 // 寄存器放不下时使用
+	Data local
+	status from caller: 返回地址；寄存器值
+	access link
+	返回值
+	参数
+	
+	
+a
 
 
+	code |
+	-----
+	data |
+	-----
+	stack|
+	-----
+	heap
