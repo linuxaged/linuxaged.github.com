@@ -65,3 +65,5 @@ a
 	stack|
 	-----
 	heap
+
+[llvm memory modle](http://llvm.org/docs/tutorial/LangImpl7.html#memory-in-llvm)

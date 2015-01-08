@@ -133,5 +133,7 @@ rust-installer
 
 rustllvm
 
+	llvm 相关调用
+
 test
 
