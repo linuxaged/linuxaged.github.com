@@ -22,6 +22,8 @@ il2cpp.exe 工具接收来自 Mono 编译好的 C# 汇编代码然后生成 C++ 
 
 il2cpp.exe 的工作原理图：
 
+![il2cpp toolchain](/assets/images/il2cpp-toolchain-smaller.png)
+
 #运行时库
 
 IL2CPP 的另外一部分就是支撑虚拟机的运行时库。我们用 C++ 实现了整个库（当然还有一些平台特殊的汇编），这个库叫做 libil2cpp , 他会被静态链接到最终的可执行程序。
