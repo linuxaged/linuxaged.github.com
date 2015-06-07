@@ -32,4 +32,8 @@ tags: []
       uint16_t chars[15];
     };
 
-其中 header 是所有托管类型都包含的标准头部 IL2CppObject （这里是 typedef 后的 Il2CppDataSegmentString）
+其中 header 是所有托管类型都包含的标准头部 IL2CppObject （这里是 typedef 后的 Il2CppDataSegmentString）, 然后是 4 字节的 length 最后是双字节字符串数组，这表示的是 _stringLiteral1 所以用定长数组，如果是运行时创建的 string 就要用堆上的数组。里面的字符是 UTF-16 格式的编码。
+
+如果我们把 _stringLiteral1 加到 Xcode 的 watch window 里，就可以右击选择 View Memory 来查看字符串内容。
+
+
