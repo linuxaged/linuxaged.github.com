@@ -96,7 +96,69 @@ tags: []
 
 #编译时 delegate 调用
 
+我们再来看看通过 delegate 调用会生成什么样的代码：
 
+	// Get the object instance used to call the method.
+	Important_t1 * L_0 = HelloWorld_ImportantFactory_m15(NULL /*static, unused*/, /*hidden argument*/&HelloWorld_ImportantFactory_m15_MethodInfo);
+	V_0 = L_0;
+	Important_t1 * L_1 = V_0;
+	 
+	// Create the delegate.
+	IntPtr_t L_2 = { &Important_Method_m1_MethodInfo };
+	ImportantMethodDelegate_t4 * L_3 = (ImportantMethodDelegate_t4 *)il2cpp_codegen_object_new (InitializedTypeInfo(&ImportantMethodDelegate_t4_il2cpp_TypeInfo));
+	ImportantMethodDelegate__ctor_m4(L_3, L_1, L_2, /*hidden argument*/&ImportantMethodDelegate__ctor_m4_MethodInfo);
+	V_1 = L_3;
+	ImportantMethodDelegate_t4 * L_4 = V_1;
+	 
+	// Call the method
+	NullCheck(L_4);
+	VirtFuncInvoker1< int32_t, String_t* >::Invoke(&ImportantMethodDelegate_Invoke_m5_MethodInfo, L_4, (String_t*) &_stringLiteral1);
+
+实际上的调用代码 `VirtFuncInvoker1<int32_t, String_t*>::Invoke` 在 GeneratedVirtualInvokers.h 文件里。这个文件是由 il2cpp.exe 生成的，并不是翻译自 IL 代码。il2cpp 会为调用有返回值和没有返回值的虚函数分别生成 VirtFuncInvokerN 和 VirtActionInvokerN，其中 N 代表参数的个数
+
+Invoke 方法原型：
+
+	template <typename R, typename T1>
+	struct VirtFuncInvoker1
+	{
+	  typedef R (*Func)(void*, T1, MethodInfo*);
+	 
+	  static inline R Invoke (MethodInfo* method, void* obj, T1 p1)
+	  {
+	    VirtualInvokeData data = il2cpp::vm::Runtime::GetVirtualInvokeData (method, obj);
+	    return ((Func)data.methodInfo->method)(data.target, p1, data.methodInfo);
+	  }
+	};
+
+这里调用了 libil2cpp 中的 GetVirtualInvokeData 方法后发查找 vtable 中的 vitual 方法，然后调用之。
+
+#通过反射调用
+
+开销最大的就是通过反射来调用，我们来看一下 CallViaReflection 对应的代码：
+
+	// Get the object instance used to call the method.
+	Important_t1 * L_0 = HelloWorld_ImportantFactory_m15(NULL /*static, unused*/, /*hidden argument*/&HelloWorld_ImportantFactory_m15_MethodInfo);
+	V_0 = L_0;
+	 
+	// Get the method metadata from the type via reflection.
+	IL2CPP_RUNTIME_CLASS_INIT(InitializedTypeInfo(&Type_t_il2cpp_TypeInfo));
+	Type_t * L_1 = Type_GetTypeFromHandle_m19(NULL /*static, unused*/, LoadTypeToken(&Important_t1_0_0_0), /*hidden argument*/&Type_GetTypeFromHandle_m19_MethodInfo);
+	NullCheck(L_1);
+	MethodInfo_t * L_2 = (MethodInfo_t *)VirtFuncInvoker1< MethodInfo_t *, String_t* >::Invoke(&Type_GetMethod_m23_MethodInfo, L_1, (String_t*) &_stringLiteral2);
+	V_1 = L_2;
+	MethodInfo_t * L_3 = V_1;
+	 
+	// Call the method.
+	Important_t1 * L_4 = V_0;
+	ObjectU5BU5D_t9* L_5 = ((ObjectU5BU5D_t9*)SZArrayNew(ObjectU5BU5D_t9_il2cpp_TypeInfo_var, 1));
+	NullCheck(L_5);
+	IL2CPP_ARRAY_BOUNDS_CHECK(L_5, 0);
+	ArrayElementTypeCheck (L_5, (String_t*) &_stringLiteral1);
+	*((Object_t **)(Object_t **)SZArrayLdElema(L_5, 0)) = (Object_t *)(String_t*) &_stringLiteral1;
+	NullCheck(L_3);
+	VirtFuncInvoker2< Object_t *, Object_t *, ObjectU5BU5D_t9* >::Invoke(&MethodBase_Invoke_m24_MethodInfo, L_3, L_4, L_5);
+
+这里我们创建一个数组来放置各个参数，然后调用 MethodBase::Invoke() 方法，在调用最终方法之前还要去调用另一个虚函数！
 
 #总结
 
